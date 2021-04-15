@@ -1,0 +1,13 @@
+name: TopBalance
+version: 1.0
+main: xyz.efekurbann.topbalance.TopBalancePlugin
+api-version: 1.13
+depend: [ Vault ]
+authors: [ hyperion ]
+description: Best Top Balance plugin -chat and gui-. Developed by hyperion (Efe Kurban)
+website: https://efekurbann.xyz
+commands:
+  baltop:
+    aliases:
+      - topbalance
+      - balancetop
