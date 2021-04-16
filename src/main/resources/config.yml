@@ -5,7 +5,7 @@ Gui:
   size: 27
   items:
     player-item:
-      name: "&a{name} &d#{order}"
+      name: "&a{name} &d#{rank}"
       lore:
         - "&8Item"
         - ""
@@ -33,7 +33,7 @@ Gui:
         - "&8Item"
         - ""
         - "&7Balance: &e{balance}"
-        - "&7Order: &e{order}"
+        - "&7Rank: &e{rank}"
     fill:
       enabled: true
       material: "GRAY_STAINED_GLASS_PANE"
@@ -46,47 +46,47 @@ Messages:
   no-perm: "&cYou do not have enough permission for that!"
 
   chat-baltop-header: "&8&m-----------------[&r &6&lBALTOP &8&m]-----------------"
-  chat-baltop-format: "&7#{order}&8, &b{name} &7- &b{balance}"
+  chat-baltop-format: "&7#{rank}&8, &b{name} &7- &b{balance}"
   chat-baltop-footer: "&8&m--------------------------------------------"
 
 Tops:
   '1':
     material: "EMERALD_BLOCK" # Only works when custom-item enabled
     slot: 4
-    order: 1
+    rank: 1
   '2':
     material: "DIAMOND_BLOCK"
     slot: 12
-    order: 2
+    rank: 2
   '3':
     material: "GOLD_BLOCK"
     slot: 14
-    order: 3
+    rank: 3
   '4':
     material: "IRON_BLOCK"
     slot: 19
-    order: 4
+    rank: 4
   '5':
     material: "COAL_BLOCK"
     slot: 20
-    order: 5
+    rank: 5
   '6':
     material: "EMERALD_INGOT"
     slot: 21
-    order: 6
+    rank: 6
   '7':
     material: "DIAMOND"
     slot: 22
-    order: 7
+    rank: 7
   '8':
     material: "GOLD_INGOT"
     slot: 23
-    order: 8
+    rank: 8
   '9':
     material: "IRON_INGOT"
     slot: 24
-    order: 9
+    rank: 9
   '10':
     material: "COAL"
     slot: 25
-    order: 10
+    rank: 10

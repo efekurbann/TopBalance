@@ -47,14 +47,14 @@ public class MainCommand implements CommandExecutor {
 
             player.sendMessage(Tools.colored(config.getString("Messages.chat-baltop-header")));
             for (String key : config.getConfigurationSection("Tops").getKeys(false)) {
-                int number = config.getInt("Tops." + key + ".order");
-                TopPlayer topPlayer = plugin.getPlayersMap().get(number - 1);
+                int rank = config.getInt("Tops." + key + ".rank");
+                TopPlayer topPlayer = plugin.getPlayersMap().get(rank - 1);
                 if (topPlayer != null) {
                     player.sendMessage(Tools.colored(config.getString("Messages.chat-baltop-format")
                             .replace("{name}", topPlayer.getName())
                             .replace("{balance}", Tools.formatMoney(topPlayer.getBalance()))
                             .replace("{balance_raw}", String.valueOf(topPlayer.getBalance()))
-                            .replace("{order}", String.valueOf(number))));
+                            .replace("{rank}", String.valueOf(rank))));
                 }
             }
             player.sendMessage(Tools.colored(config.getString("Messages.chat-baltop-footer")));

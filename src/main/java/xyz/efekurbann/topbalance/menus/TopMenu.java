@@ -40,8 +40,8 @@ public class TopMenu extends GUI {
         }
 
         for (String key : config.getConfigurationSection("Tops").getKeys(false)) {
-            int number = config.getInt("Tops." + key + ".order");
-            TopPlayer player = plugin.getPlayersMap().get(number-1);
+            int rank = config.getInt("Tops." + key + ".rank");
+            TopPlayer player = plugin.getPlayersMap().get(rank-1);
             int slot = config.getInt("Tops." + key + ".slot");
             ItemStack item;
             if (player != null) {
@@ -49,18 +49,18 @@ public class TopMenu extends GUI {
                     List<String> lore = new ArrayList<>();
 
                     for (String str : config.getStringList("Gui.items.player-item.lore")) {
-                        lore.add(str.replace("{order}", String.valueOf(number))
+                        lore.add(str.replace("{rank}", String.valueOf(rank))
                                 .replace("{name}", player.getName())
                                 .replace("{balance_raw}", String.valueOf(player.getBalance()))
                                 .replace("{balance}", Tools.formatMoney(player.getBalance())));
                     }
                     item = new ItemBuilder(XMaterial.valueOf(config.getString("Tops." + key + ".material")).parseMaterial())
                             .withName(config.getString("Gui.items.player-item.name")
-                                    .replace("{order}", String.valueOf(number))
+                                    .replace("{rank}", String.valueOf(rank))
                                     .replace("{name}", player.getName()))
                             .withLore(lore).build();
                 } else {
-                    item = getSkull(number-1, "player-item");
+                    item = getSkull(rank-1, "player-item");
                 }
             } else {
                 item = new ItemBuilder(XMaterial.valueOf(config.getString("Gui.items.player-not-found.material")).parseMaterial())
@@ -90,11 +90,11 @@ public class TopMenu extends GUI {
             event.getPlayer().sendMessage(Tools.colored(config.getString("Messages.gui-opened.message")));
 
         Player player = (Player) event.getPlayer();
-        int selfOrder = Tools.getOrder(event.getPlayer().getName());
-        TopPlayer topPlayer = plugin.getPlayersMap().get(selfOrder);
+        int selfRank = Tools.getPosition(event.getPlayer().getName());
+        TopPlayer topPlayer = plugin.getPlayersMap().get(selfRank);
         List<String> lore = new ArrayList<>();
         for (String str : config.getStringList("Gui.items.self-item.lore")) {
-            lore.add(str.replace("{order}", String.valueOf(selfOrder))
+            lore.add(str.replace("{rank}", String.valueOf(selfRank))
                     .replace("{name}", player.getName())
                     .replace("{balance_raw}", String.valueOf(topPlayer.getBalance()))
                     .replace("{balance}", Tools.formatMoney(topPlayer.getBalance())));
@@ -106,7 +106,7 @@ public class TopMenu extends GUI {
                     .withName(config.getString("Gui.items.self-item.name"))
                     .withLore(lore).build());
         } else {
-            addItem(config.getInt("Gui.items.self-item.slot"), getSkull(selfOrder, "self-item"));
+            addItem(config.getInt("Gui.items.self-item.slot"), getSkull(selfRank, "self-item"));
         }
     }
 
@@ -118,13 +118,13 @@ public class TopMenu extends GUI {
         TopPlayer player = plugin.getPlayersMap().get(number);
         meta.setOwner(player.getName());
         meta.setDisplayName(Tools.colored(config.getString("Gui.items."+ path +".name")
-                .replace("{order}", String.valueOf(number+1))
+                .replace("{rank}", String.valueOf(number+1))
                 .replace("{name}", player.getName())
                 .replace("{balance_raw}", String.valueOf(player.getBalance()))
                 .replace("{balance}", Tools.formatMoney(player.getBalance()))));
         List<String> lore = new ArrayList<>();
         for (String str : config.getStringList("Gui.items."+ path +".lore")){
-            lore.add(str.replace("{order}", String.valueOf(number+1))
+            lore.add(str.replace("{rank}", String.valueOf(number+1))
                     .replace("{name}", player.getName())
                     .replace("{balance_raw}", String.valueOf(player.getBalance()))
                     .replace("{balance}", Tools.formatMoney(player.getBalance())));

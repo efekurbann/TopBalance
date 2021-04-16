@@ -48,7 +48,7 @@ public class Tools {
 
     }
 
-    public static int getOrder(String name) {
+    public static int getPosition(String name) {
         AtomicReference<Integer> order = new AtomicReference<>(0);
         TopBalancePlugin.getInstance().getPlayersMap().forEach((key, value) -> {
             if (value.getName().equals(name)) {
