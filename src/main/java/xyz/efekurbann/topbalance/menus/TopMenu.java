@@ -76,7 +76,7 @@ public class TopMenu extends GUI {
                 new Hytem(new ItemBuilder(XMaterial.valueOf(config.getString("Gui.items.close-menu.material")).parseMaterial())
                         .withName(config.getString("Gui.items.close-menu.name"))
                         .withLore(config.getStringList("Gui.items.close-menu.lore")).build(), (event) ->{
-                    Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, ()->{
+                    Bukkit.getScheduler().runTaskLater(plugin, ()->{
                         event.getWhoClicked().closeInventory();
                     }, 2);
                 })
