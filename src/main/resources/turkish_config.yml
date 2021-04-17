@@ -1,8 +1,12 @@
 Gui:
-  custom-item: false
+  custom-item: true # En iyi performans için true olarak bırakın!!!
   enabled: true # Sohbette göstermesini istiyorsanız false yapın.
   title: "&5Top 10"
   size: 27
+  #
+  # Mevcut değişkenler
+  # - {name} (lore-name), {rank} (lore-name), {balance} - formatted (lore), {balance_raw} (lore)
+  #
   items:
     player-item:
       name: "&a{name} &d#{rank}"
