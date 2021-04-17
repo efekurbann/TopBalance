@@ -15,8 +15,6 @@ import xyz.efekurbann.topbalance.utils.ConfigManager;
 import xyz.efekurbann.topbalance.utils.VaultManager;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 public final class TopBalancePlugin extends JavaPlugin {
 
@@ -28,7 +26,7 @@ public final class TopBalancePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        if (!VaultManager.setupEconomy()){
+        if (!VaultManager.setupEconomy()) {
             getLogger().severe("Vault-Eco not found! Plugin is disabled..");
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -44,28 +42,17 @@ public final class TopBalancePlugin extends JavaPlugin {
         getCommand("baltop").setExecutor(new MainCommand(this));
         new Metrics(this, 11047);
         UpdateChecker updateChecker = new UpdateChecker(this);
-        updateChecker.isUpToDate((isUpToDate)->{
-            if (!isUpToDate) {
-                getLogger().info("An update was found for TopBalance!");
-                getLogger().info("https://www.spigotmc.org/resources/91372/");
-            } else {
-                getLogger().info("Plugin is up to date, no update found.");
-                getLogger().info("Plugin enabled. Thank you for using.");
-            }
-        });
+        updateChecker.checkUpdates();
 
         this.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
-            public void onJoin(PlayerJoinEvent event){
+            public void onJoin(PlayerJoinEvent event) {
                 Player player = event.getPlayer();
                 if (!player.hasPermission("topbalance.admin")) return;
-
-                new UpdateChecker(TopBalancePlugin.getInstance()).isUpToDate((isUpToDate)->{
-                    if (!isUpToDate) {
-                        player.sendMessage(ChatColor.GREEN + "An update was found for TopBalance!");
-                        player.sendMessage(ChatColor.GREEN + "Download it here: "+ ChatColor.DARK_GREEN +"https://www.spigotmc.org/resources/91372/");
-                    }
-                });
+                if (!updateChecker.isUpToDate()) {
+                    player.sendMessage(ChatColor.GREEN + "An update was found for TopBalance!");
+                    player.sendMessage(ChatColor.GREEN + "Download it here: " + ChatColor.DARK_GREEN + "https://www.spigotmc.org/resources/91372/");
+                }
             }
         }, this);
 
