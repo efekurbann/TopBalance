@@ -1,0 +1,92 @@
+Gui:
+  custom-item: false
+  enabled: true # Sohbette göstermesini istiyorsanız false yapın.
+  title: "&5Top 10"
+  size: 27
+  items:
+    player-item:
+      name: "&a{name} &d#{rank}"
+      lore:
+        - "&8Eşya"
+        - ""
+        - "&7Para: &e{balance}"
+    close-menu:
+      slot: 8
+      material: "STONE_BUTTON"
+      name: "&cMenüyü kapat!"
+      lore:
+        - "&8Eşya"
+        - ""
+        - "&7&oMenüyü kapatmak için tıkla."
+    player-not-found:
+      material: "BARRIER"
+      name: "&cOyuncu bulunamadı!"
+      lore:
+        - "&8Eşya"
+        - ""
+        - "&7&oOyuncu bulunamadı."
+    self-item:
+      slot: 0
+      material: "GHAST_TEAR" # Sadece custom-item aktif olduğunda geçerli olur!!
+      name: "&e&lSen"
+      lore:
+        - "&8Eşya"
+        - ""
+        - "&7Para: &e{balance}"
+        - "&7Sıra: &e{rank}"
+    fill:
+      enabled: true
+      material: "GRAY_STAINED_GLASS_PANE"
+
+Messages:
+  gui-opened:
+    status: true
+    message: "&aMenü açıldı."
+  reloaded: "&aEklenti yenilendi!"
+  no-perm: "&cBu işlem için yetkin yok!"
+
+  chat-baltop-header: "&8&m-----------------[&r &6&lBALTOP &8&m]-----------------"
+  chat-baltop-format: "&7#{rank}&8, &b{name} &7- &b{balance}"
+  chat-baltop-footer: "&8&m--------------------------------------------"
+
+Tops:
+  '1':
+    material: "EMERALD_BLOCK" # Sadece custom-item aktif olduğunda geçerli olur!!
+    slot: 4
+    rank: 1
+  '2':
+    material: "DIAMOND_BLOCK"
+    slot: 12
+    rank: 2
+  '3':
+    material: "GOLD_BLOCK"
+    slot: 14
+    rank: 3
+  '4':
+    material: "IRON_BLOCK"
+    slot: 19
+    rank: 4
+  '5':
+    material: "COAL_BLOCK"
+    slot: 20
+    rank: 5
+  '6':
+    material: "EMERALD_INGOT"
+    slot: 21
+    rank: 6
+  '7':
+    material: "DIAMOND"
+    slot: 22
+    rank: 7
+  '8':
+    material: "GOLD_INGOT"
+    slot: 23
+    rank: 8
+  '9':
+    material: "IRON_INGOT"
+    slot: 24
+    rank: 9
+  '10':
+    material: "COAL"
+    slot: 25
+    rank: 10
