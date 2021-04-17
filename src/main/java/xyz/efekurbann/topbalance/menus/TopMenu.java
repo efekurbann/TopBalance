@@ -19,6 +19,7 @@ import xyz.efekurbann.topbalance.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TopMenu extends GUI {
 
@@ -37,7 +38,7 @@ public class TopMenu extends GUI {
         if (config.getBoolean("Gui.items.fill.enabled")){
             for (int i = 0; i < getSize(); i++){
                 addItem(i, new ItemBuilder(
-                        XMaterial.matchXMaterial(config.getString("Gui.items.fill.material")).get().parseItem()).withName(" ").build());
+                        XMaterial.matchXMaterial(config.getString("Gui.items.fill.material").toUpperCase(Locale.ENGLISH)).get().parseItem()).withName(" ").build());
             }
         }
 
@@ -56,7 +57,7 @@ public class TopMenu extends GUI {
                                 .replace("{balance_raw}", String.valueOf(player.getBalance()))
                                 .replace("{balance}", Tools.formatMoney(player.getBalance())));
                     }
-                    item = new ItemBuilder(XMaterial.valueOf(config.getString("Tops." + key + ".material")).parseMaterial())
+                    item = new ItemBuilder(XMaterial.valueOf(config.getString("Tops." + key + ".material").toUpperCase(Locale.ENGLISH)).parseMaterial())
                             .withName(config.getString("Gui.items.player-item.name")
                                     .replace("{rank}", String.valueOf(rank))
                                     .replace("{name}", player.getName()))
@@ -65,7 +66,7 @@ public class TopMenu extends GUI {
                     item = getSkull(rank-1, "player-item");
                 }
             } else {
-                item = new ItemBuilder(XMaterial.valueOf(config.getString("Gui.items.player-not-found.material")).parseMaterial())
+                item = new ItemBuilder(XMaterial.valueOf(config.getString("Gui.items.player-not-found.material").toUpperCase(Locale.ENGLISH)).parseMaterial())
                         .withName(config.getString("Gui.items.player-not-found.name"))
                         .withLore(config.getStringList("Gui.items.player-not-found.lore")).build();
             }
@@ -75,7 +76,7 @@ public class TopMenu extends GUI {
 
         addItem(
                 config.getInt("Gui.items.close-menu.slot"),
-                new Hytem(new ItemBuilder(XMaterial.valueOf(config.getString("Gui.items.close-menu.material")).parseMaterial())
+                new Hytem(new ItemBuilder(XMaterial.valueOf(config.getString("Gui.items.close-menu.material").toUpperCase(Locale.ENGLISH)).parseMaterial())
                         .withName(config.getString("Gui.items.close-menu.name"))
                         .withLore(config.getStringList("Gui.items.close-menu.lore")).build(), (event) ->{
                     Bukkit.getScheduler().runTaskLater(plugin, ()->{
@@ -106,7 +107,7 @@ public class TopMenu extends GUI {
 
         if (config.getBoolean("Gui.custom-item")) {
             addItem(config.getInt("Gui.items.self-item.slot"), new ItemBuilder(
-                    XMaterial.matchXMaterial(config.getString("Gui.items.self-item.material")).get().parseItem())
+                    XMaterial.matchXMaterial(config.getString("Gui.items.self-item.material").toUpperCase(Locale.ENGLISH)).get().parseItem())
                     .withName(config.getString("Gui.items.self-item.name"))
                     .withLore(lore).build());
         } else {
