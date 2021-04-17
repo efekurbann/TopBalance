@@ -1,5 +1,6 @@
 package xyz.efekurbann.topbalance.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import xyz.efekurbann.topbalance.TopBalancePlugin;
 
@@ -50,10 +51,12 @@ public class Tools {
 
     public static int getPosition(String name) {
         AtomicReference<Integer> order = new AtomicReference<>(0);
-        TopBalancePlugin.getInstance().getPlayersMap().forEach((key, value) -> {
-            if (value.getName().equals(name)) {
-                order.set(key);
-            }
+        Bukkit.getScheduler().runTaskAsynchronously(TopBalancePlugin.getInstance(), ()->{
+            TopBalancePlugin.getInstance().getPlayersMap().forEach((key, value) -> {
+                if (value.getName().equals(name)) {
+                    order.set(key);
+                }
+            });
         });
         return order.get();
     }

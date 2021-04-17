@@ -94,6 +94,8 @@ public class TopMenu extends GUI {
         Player player = (Player) event.getPlayer();
         int selfRank = Tools.getPosition(event.getPlayer().getName());
         TopPlayer topPlayer = plugin.getPlayersMap().get(selfRank);
+
+        if (topPlayer == null) return;
         List<String> lore = new ArrayList<>();
         for (String str : config.getStringList("Gui.items.self-item.lore")) {
             lore.add(str.replace("{rank}", String.valueOf(selfRank+1))
@@ -144,6 +146,5 @@ public class TopMenu extends GUI {
         //System.out.println("[DEBUG] (2) Took " + (System.nanoTime() - startNano) + " nano sec");
         return item;
     }
-
 
 }
