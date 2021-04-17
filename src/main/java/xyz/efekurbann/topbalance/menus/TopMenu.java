@@ -1,11 +1,13 @@
 package xyz.efekurbann.topbalance.menus;
 
+import com.cryptomorin.xseries.SkullUtils;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import xyz.efekurbann.inventory.GUI;
 import xyz.efekurbann.inventory.Hytem;
@@ -94,7 +96,7 @@ public class TopMenu extends GUI {
         TopPlayer topPlayer = plugin.getPlayersMap().get(selfRank);
         List<String> lore = new ArrayList<>();
         for (String str : config.getStringList("Gui.items.self-item.lore")) {
-            lore.add(str.replace("{rank}", String.valueOf(selfRank))
+            lore.add(str.replace("{rank}", String.valueOf(selfRank+1))
                     .replace("{name}", player.getName())
                     .replace("{balance_raw}", String.valueOf(topPlayer.getBalance()))
                     .replace("{balance}", Tools.formatMoney(topPlayer.getBalance())));
@@ -110,29 +112,38 @@ public class TopMenu extends GUI {
         }
     }
 
-    public ItemStack getSkull(Integer number, String path){
-        FileConfiguration config = ConfigManager.get("config.yml");
-
+    public ItemStack getSkull(Integer number, String path) {
         ItemStack item = XMaterial.PLAYER_HEAD.parseItem();
-        SkullMeta meta = (SkullMeta) item.getItemMeta();
+        ItemMeta meta = item.getItemMeta();
         TopPlayer player = plugin.getPlayersMap().get(number);
-        meta.setOwner(player.getName());
-        meta.setDisplayName(Tools.colored(config.getString("Gui.items."+ path +".name")
-                .replace("{rank}", String.valueOf(number+1))
+
+        //long start = System.currentTimeMillis();
+        //long startNano = System.nanoTime();
+        SkullMeta skullMeta = SkullUtils.applySkin(meta, player.getUUID());
+        //System.out.println("[DEBUG] Took " + (System.currentTimeMillis() - start) + "ms");
+        //System.out.println("[DEBUG] Took " + (System.nanoTime() - startNano) + " nano sec");
+
+        //start = System.currentTimeMillis();
+        //startNano = System.nanoTime();
+        skullMeta.setDisplayName(Tools.colored(config.getString("Gui.items." + path + ".name")
+                .replace("{rank}", String.valueOf(number + 1))
                 .replace("{name}", player.getName())
                 .replace("{balance_raw}", String.valueOf(player.getBalance()))
                 .replace("{balance}", Tools.formatMoney(player.getBalance()))));
         List<String> lore = new ArrayList<>();
-        for (String str : config.getStringList("Gui.items."+ path +".lore")){
-            lore.add(str.replace("{rank}", String.valueOf(number+1))
+        for (String str : config.getStringList("Gui.items." + path + ".lore")) {
+            lore.add(str.replace("{rank}", String.valueOf(number + 1))
                     .replace("{name}", player.getName())
                     .replace("{balance_raw}", String.valueOf(player.getBalance()))
                     .replace("{balance}", Tools.formatMoney(player.getBalance())));
         }
-        meta.setLore(Tools.colored(lore));
-        item.setItemMeta(meta);
+        skullMeta.setLore(Tools.colored(lore));
 
+        item.setItemMeta(skullMeta);
+        //System.out.println("[DEBUG] (2) Took " + (System.currentTimeMillis() - start) + "ms");
+        //System.out.println("[DEBUG] (2) Took " + (System.nanoTime() - startNano) + " nano sec");
         return item;
     }
+
 
 }
