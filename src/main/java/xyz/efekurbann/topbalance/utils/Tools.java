@@ -8,6 +8,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Tools {
@@ -50,15 +52,14 @@ public class Tools {
     }
 
     public static int getPosition(String name) {
-        AtomicReference<Integer> order = new AtomicReference<>(0);
-        Bukkit.getScheduler().runTaskAsynchronously(TopBalancePlugin.getInstance(), ()->{
-            TopBalancePlugin.getInstance().getPlayersMap().forEach((key, value) -> {
-                if (value.getName().equals(name)) {
-                    order.set(key);
-                }
-            });
+        CompletableFuture<Integer> future = CompletableFuture.supplyAsync(()->{
+            return TopBalancePlugin.getInstance().getPlayersMap().entrySet().stream().filter((entry) -> entry.getValue().getName().equals(name)).findFirst().get().getKey();
         });
-        return order.get();
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            return TopBalancePlugin.getInstance().getPlayersMap().size()+1;
+        }
     }
 
 }
