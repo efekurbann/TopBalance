@@ -5,9 +5,7 @@ import org.bukkit.ChatColor;
 import xyz.efekurbann.topbalance.TopBalancePlugin;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -52,14 +50,12 @@ public class Tools {
     }
 
     public static int getPosition(String name) {
-        CompletableFuture<Integer> future = CompletableFuture.supplyAsync(()->{
-            return TopBalancePlugin.getInstance().getPlayersMap().entrySet().stream().filter((entry) -> entry.getValue().getName().equals(name)).findFirst().get().getKey();
-        });
-        try {
-            return future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            return TopBalancePlugin.getInstance().getPlayersMap().size()+1;
-        }
+        return TopBalancePlugin.getInstance().getPlayersMap().entrySet()
+                .parallelStream()
+                .filter((entry) -> entry.getValue().getName().equals(name))
+                .findAny()
+                .map(Map.Entry::getKey)
+                .orElse(TopBalancePlugin.getInstance().getPlayersMap().size()+1);
     }
 
 }
