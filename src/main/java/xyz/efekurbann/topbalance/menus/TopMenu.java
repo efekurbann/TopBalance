@@ -93,26 +93,28 @@ public class TopMenu extends GUI {
             event.getPlayer().sendMessage(Tools.colored(config.getString("Messages.gui-opened.message")));
 
         Player player = (Player) event.getPlayer();
-        int selfRank = Tools.getPosition(event.getPlayer().getName());
-        TopPlayer topPlayer = plugin.getPlayersMap().get(selfRank);
 
-        if (topPlayer == null) return;
-        List<String> lore = new ArrayList<>();
-        for (String str : config.getStringList("Gui.items.self-item.lore")) {
-            lore.add(str.replace("{rank}", String.valueOf(selfRank+1))
-                    .replace("{name}", player.getName())
-                    .replace("{balance_raw}", String.valueOf(topPlayer.getBalance()))
-                    .replace("{balance}", Tools.formatMoney(topPlayer.getBalance())));
-        }
+        Tools.getPosition(event.getPlayer().getName()).whenCompleteAsync((selfRank, throwable) -> {
+            TopPlayer topPlayer = plugin.getPlayersMap().get(selfRank);
 
-        if (config.getBoolean("Gui.custom-item")) {
-            addItem(config.getInt("Gui.items.self-item.slot"), new ItemBuilder(
-                    XMaterial.matchXMaterial(config.getString("Gui.items.self-item.material").toUpperCase(Locale.ENGLISH)).get().parseItem())
-                    .withName(config.getString("Gui.items.self-item.name"))
-                    .withLore(lore).build());
-        } else {
-            addItem(config.getInt("Gui.items.self-item.slot"), getSkull(selfRank, "self-item"));
-        }
+            if (topPlayer == null) return;
+            List<String> lore = new ArrayList<>();
+            for (String str : config.getStringList("Gui.items.self-item.lore")) {
+                lore.add(str.replace("{rank}", String.valueOf(selfRank+1))
+                        .replace("{name}", player.getName())
+                        .replace("{balance_raw}", String.valueOf(topPlayer.getBalance()))
+                        .replace("{balance}", Tools.formatMoney(topPlayer.getBalance())));
+            }
+
+            if (config.getBoolean("Gui.custom-item")) {
+                addItem(config.getInt("Gui.items.self-item.slot"), new ItemBuilder(
+                        XMaterial.matchXMaterial(config.getString("Gui.items.self-item.material").toUpperCase(Locale.ENGLISH)).get().parseItem())
+                        .withName(config.getString("Gui.items.self-item.name"))
+                        .withLore(lore).build());
+            } else {
+                addItem(config.getInt("Gui.items.self-item.slot"), getSkull(selfRank, "self-item"));
+            }
+        });
     }
 
     public ItemStack getSkull(Integer number, String path) {

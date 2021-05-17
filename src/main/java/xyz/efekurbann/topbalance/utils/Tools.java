@@ -1,14 +1,14 @@
 package xyz.efekurbann.topbalance.utils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import xyz.efekurbann.topbalance.TopBalancePlugin;
 
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Tools {
 
@@ -49,13 +49,13 @@ public class Tools {
 
     }
 
-    public static int getPosition(String name) {
-        return TopBalancePlugin.getInstance().getPlayersMap().entrySet()
+    public static CompletableFuture<Integer> getPosition(String name) {
+        return CompletableFuture.supplyAsync(() -> TopBalancePlugin.getInstance().getPlayersMap().entrySet()
                 .parallelStream()
                 .filter((entry) -> entry.getValue().getName().equals(name))
                 .findAny()
                 .map(Map.Entry::getKey)
-                .orElse(TopBalancePlugin.getInstance().getPlayersMap().size()+1);
+                .orElse(TopBalancePlugin.getInstance().getPlayersMap().size()+1));
     }
 
 }
